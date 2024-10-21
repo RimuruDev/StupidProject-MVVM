@@ -11,7 +11,7 @@ namespace AbyssMoth.Internal.Codebase.DI.Container
         private readonly HashSet<(string, Type)> resolutions = new();
         private readonly Dictionary<(string, Type), DIRegistration> registrations = new();
 
-        public DIContainer(DIContainer parentContainer)
+        public DIContainer(DIContainer parentContainer = null)
         {
             this.parentContainer = parentContainer;
         }
