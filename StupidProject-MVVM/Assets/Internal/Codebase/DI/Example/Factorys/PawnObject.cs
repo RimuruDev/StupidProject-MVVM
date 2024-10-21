@@ -2,8 +2,8 @@ namespace AbyssMoth.Internal.Codebase.DI.Example.Factorys
 {
     public sealed class PawnObject
     {
-        private readonly string id;
-        private readonly string owner;
+        public readonly string id;
+        public readonly string owner;
 
         public PawnObject(string id, string owner)
         {
