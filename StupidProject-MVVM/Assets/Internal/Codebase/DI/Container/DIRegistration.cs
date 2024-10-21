@@ -1,7 +1,6 @@
 using System;
-using AbyssMoth.Internal.Codebase.DI.Container;
 
-namespace AbyssMoth.Internal.Codebase.DI
+namespace AbyssMoth.Internal.Codebase.DI.Container
 {
     public class DIRegistration
     {

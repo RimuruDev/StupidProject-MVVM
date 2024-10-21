@@ -8,24 +8,39 @@ namespace AbyssMoth.Internal.Codebase.DI.Container
         {
             var key = (tag, typeof(T));
 
-            if (registrations.TryGetValue(key, out var registration))
+            // ReSharper disable once CanSimplifySetAddingWithSingleCall
+            if (resolutions.Contains(key))
             {
-                if (registration.IsSingleton)
-                {
-                    if (registration.Instance == null && registration.Factory != null)
-                    {
-                        registration.Instance = registration.Factory(this);
-                    }
-
-                    return (T)registration.Instance;
-                }
-
-                return (T)registration.Factory(this);
+                return ReportThrow<T>($"Cyclic dependency for tag: {tag} and type key: {key.Item2.FullName}");
             }
 
-            if (parentContainer != null)
+            resolutions.Add(key);
+
+            try
             {
-                return parentContainer.Resolve<T>(tag);
+                if (registrations.TryGetValue(key, out var registration))
+                {
+                    if (registration.IsSingleton)
+                    {
+                        if (registration.Instance == null && registration.Factory != null)
+                        {
+                            registration.Instance = registration.Factory(this);
+                        }
+
+                        return (T)registration.Instance;
+                    }
+
+                    return (T)registration.Factory(this);
+                }
+
+                if (parentContainer != null)
+                {
+                    return parentContainer.Resolve<T>(tag);
+                }
+            }
+            finally
+            {
+                resolutions.Remove(key);
             }
 
             return ReportThrow<T>($"Couldn't find dependency for tag: {tag} and type key: {key.Item2.FullName}");
