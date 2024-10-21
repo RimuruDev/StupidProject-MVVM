@@ -74,3 +74,5 @@ crashlytics-build.properties
 /StupidProject-MVVM/Temp
 /StupidProject-MVVM/UserSettings
 /StupidProject-MVVM/Logs
+/StupidProject-MVVM/.idea
+/StupidProject-MVVM/obj
