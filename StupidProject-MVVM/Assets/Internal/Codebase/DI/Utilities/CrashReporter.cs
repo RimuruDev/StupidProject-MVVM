@@ -6,11 +6,18 @@ namespace AbyssMoth.Internal.Codebase.DI.Utilities
 {
     public static class CrashReporter
     {
-        public static void Report(string message, Exception inner = null) => 
+        public static void Report(string message, Exception inner = null) =>
             InternalReport(message, inner, isThrow: false);
 
-        public static void ReportThrow(string message, Exception inner = null) => 
+        public static void ReportThrow(string message, Exception inner = null) =>
             InternalReport(message, inner, isThrow: true);
+
+        public static T ReportThrow<T>(string message, Exception inner = null)
+        {
+            InternalReport(message, inner, isThrow: true);
+
+            return default;
+        }
 
         private static void InternalReport(string message, Exception inner = null, bool isThrow = true)
         {
