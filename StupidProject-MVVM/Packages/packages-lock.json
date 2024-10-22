@@ -46,7 +46,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
-      "version": "3.0.31",
+      "version": "3.0.34",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -177,6 +177,13 @@
         "com.unity.modules.ui": "1.0.0",
         "com.unity.modules.imgui": "1.0.0"
       }
+    },
+    "unity-editor-hierarchy-2": {
+      "version": "https://github.com/RimuruDev/Unity-Editor-Hierarchy-2.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "4a545cc62b016be9a855eb6319543045c10cd8dc"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
