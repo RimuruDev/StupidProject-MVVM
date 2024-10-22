@@ -54,13 +54,13 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
 
             if (sceneName == SceneName.Gameplay)
             {
-                coroutineProvider.StartCoroutine(routine: LoadAndStartGameplay(new GameplayEnterParams()));
+                coroutineProvider.StartCoroutine(routine: LoadAndStartGameplay());
                 return;
             }
 
             if (sceneName == SceneName.MainMenu)
             {
-                coroutineProvider.StartCoroutine(routine: LoadAndStartMainMenu(new MainMenuEnterParams("Rim")));
+                coroutineProvider.StartCoroutine(routine: LoadAndStartMainMenu());
                 return;
             }
 
@@ -68,10 +68,10 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
                 return;
 #endif
 
-            coroutineProvider.StartCoroutine(routine: LoadAndStartGameplay(new GameplayEnterParams()));
+            coroutineProvider.StartCoroutine(routine: LoadAndStartGameplay());
         }
 
-        private IEnumerator LoadAndStartGameplay(GameplayEnterParams enterParams)
+        private IEnumerator LoadAndStartGameplay(GameplayEnterParams enterParams = null)
         {
             uiRoot.ShowLoadingScreen();
             {
@@ -93,7 +93,7 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
             uiRoot.HideLoadingScreen();
         }
 
-        private IEnumerator LoadAndStartMainMenu(MainMenuEnterParams enterParams)
+        private IEnumerator LoadAndStartMainMenu(MainMenuEnterParams enterParams = null)
         {
             uiRoot.ShowLoadingScreen();
             {
