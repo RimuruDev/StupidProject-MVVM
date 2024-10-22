@@ -68,7 +68,7 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
                 return;
 #endif
 
-            coroutineProvider.StartCoroutine(routine: LoadAndStartGameplay());
+            coroutineProvider.StartCoroutine(routine: LoadAndStartMainMenu());
         }
 
         private IEnumerator LoadAndStartGameplay(GameplayEnterParams enterParams = null)
