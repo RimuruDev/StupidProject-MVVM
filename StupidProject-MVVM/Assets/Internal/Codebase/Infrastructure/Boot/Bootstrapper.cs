@@ -108,8 +108,17 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
                     .Run(uiRoot, enterParams)
                     .Subscribe(mainMenuExitParams =>
                     {
-                        coroutineProvider.StartCoroutine(
-                            routine: LoadAndStartGameplay(mainMenuExitParams.GameplayEnterParams));
+                        var sceneName = mainMenuExitParams.TargetSceneEnterParams.SceneName;
+
+                        switch (sceneName)
+                        {
+                            case SceneName.Gameplay:
+                                coroutineProvider.StartCoroutine(routine: LoadAndStartGameplay());
+                                break;
+                            case SceneName.MainMenu:
+                                coroutineProvider.StartCoroutine(routine: LoadAndStartMainMenu());
+                                break;
+                        }
                     });
             }
             uiRoot.HideLoadingScreen();

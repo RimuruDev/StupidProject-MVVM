@@ -1,15 +1,14 @@
-using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root;
-using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.View;
+using AbyssMoth.Internal.Codebase.Infrastructure.Roots;
 
 namespace AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root
 {
     public class MainMenuExitParams
     {
-        public GameplayEnterParams GameplayEnterParams { get; }
+        public SceneEnterParams TargetSceneEnterParams { get; }
 
-        public MainMenuExitParams(GameplayEnterParams gameplayEnterParams)
+        public MainMenuExitParams(SceneEnterParams targetSceneEnterParams)
         {
-            GameplayEnterParams = gameplayEnterParams;
+            TargetSceneEnterParams = targetSceneEnterParams;
         }
     }
 }
