@@ -1,10 +1,12 @@
 using UnityEngine;
+using System.Runtime.CompilerServices;
 
 namespace AbyssMoth.Internal.Codebase.Infrastructure.Utilities
 {
     public static class Helper
     {
-        public static T CreateNewGameObject<T>(string name = null, bool autoNaming = true) where T : MonoBehaviour
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T CreateNewGameObject<T>(string name = null, bool autoNaming = true, bool dontDestroyOnLoad = false) where T : MonoBehaviour
         {
             GameObject newGameObject;
 
@@ -19,6 +21,11 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Utilities
 
             var attackedComponent = newGameObject.AddComponent<T>();
 
+            if (dontDestroyOnLoad)
+            {
+                Object.DontDestroyOnLoad(newGameObject);
+            }
+            
             return attackedComponent;
         }
     }
