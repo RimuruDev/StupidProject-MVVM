@@ -5,6 +5,7 @@ using AbyssMoth.Internal.Codebase.Infrastructure.Roots;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root;
 using AbyssMoth.Internal.Codebase.Infrastructure.Utilities;
 using AbyssMoth.Internal.Codebase.Infrastructure.AssetManagement;
+using AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root;
 
 namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
 {
@@ -53,6 +54,12 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
                 coroutineProvider.StartCoroutine(routine: LoadAndStartGameplay());
                 return;
             }
+            
+            if (sceneName == SceneName.MainMenu)
+            {
+                coroutineProvider.StartCoroutine(routine: LoadAndStartMainMenu());
+                return;
+            }
 
             if (sceneName != SceneName.Boot)
                 return;
@@ -72,6 +79,31 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
 
                 var sceneEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>(FindObjectsInactive.Include);
                 sceneEntryPoint.Run(uiRoot);
+
+                sceneEntryPoint.GoToMainMenuButtonClicked += () =>
+                {
+                    coroutineProvider.StartCoroutine(routine: LoadAndStartMainMenu());
+                };
+            }
+            uiRoot.HideLoadingScreen();
+        }
+        
+        private IEnumerator LoadAndStartMainMenu()
+        {
+            uiRoot.ShowLoadingScreen();
+            {
+                yield return LoadScene(SceneName.Boot);
+                yield return LoadScene(SceneName.MainMenu);
+
+                yield return cooldownTwoSeconds;
+
+                var sceneEntryPoint = Object.FindFirstObjectByType<MainMenuEntryPoint>(FindObjectsInactive.Include);
+                sceneEntryPoint.Run(uiRoot);
+                
+                sceneEntryPoint.GoToGameplayButtonClickedRequested += () =>
+                {
+                    coroutineProvider.StartCoroutine(routine: LoadAndStartGameplay());
+                };
             }
             uiRoot.HideLoadingScreen();
         }
