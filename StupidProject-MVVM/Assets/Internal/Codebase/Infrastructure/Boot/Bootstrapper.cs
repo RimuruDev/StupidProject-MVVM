@@ -113,7 +113,7 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
                         switch (sceneName)
                         {
                             case SceneName.Gameplay:
-                                coroutineProvider.StartCoroutine(routine: LoadAndStartGameplay());
+                                coroutineProvider.StartCoroutine(routine: LoadAndStartGameplay(mainMenuExitParams.TargetSceneEnterParams.As<GameplayEnterParams>()));
                                 break;
                             case SceneName.MainMenu:
                                 coroutineProvider.StartCoroutine(routine: LoadAndStartMainMenu());
