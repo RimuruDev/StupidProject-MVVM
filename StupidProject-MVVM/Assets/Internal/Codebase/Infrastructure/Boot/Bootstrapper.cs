@@ -1,3 +1,5 @@
+using AbyssMoth.Internal.Codebase.Infrastructure.AssetManagement;
+using AbyssMoth.Internal.Codebase.Infrastructure.Roots;
 using AbyssMoth.Internal.Codebase.Infrastructure.Utilities;
 using UnityEngine;
 
@@ -7,6 +9,7 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
     {
         private static Bootstrapper selfInstance;
         private CoroutineProvider coroutineProvider;
+        public UIViewRoot uiRoot;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Initialization()
@@ -20,6 +23,9 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
         private Bootstrapper()
         {
             coroutineProvider = Helper.CreateNewGameObject<CoroutineProvider>();
+
+            var prefabUIViewRoot = Resources.Load<UIViewRoot>(AssetPath.UIRoot);
+            Helper.InstantiateDontDestroyOnLoad(prefabUIViewRoot);
         }
 
         private static void SetupSystemSettings()

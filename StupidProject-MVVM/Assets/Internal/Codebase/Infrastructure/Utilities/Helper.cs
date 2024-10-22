@@ -6,7 +6,8 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Utilities
     public static class Helper
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T CreateNewGameObject<T>(string name = null, bool autoNaming = true, bool dontDestroyOnLoad = false) where T : MonoBehaviour
+        public static T CreateNewGameObject<T>(string name = null, bool autoNaming = true,
+            bool dontDestroyOnLoad = false) where T : MonoBehaviour
         {
             GameObject newGameObject;
 
@@ -25,8 +26,14 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Utilities
             {
                 Object.DontDestroyOnLoad(newGameObject);
             }
-            
+
             return attackedComponent;
+        }
+
+        public static void InstantiateDontDestroyOnLoad<T>(T prefab) where T : MonoBehaviour
+        {
+            var instance = Object.Instantiate(prefab);
+            Object.DontDestroyOnLoad(instance.gameObject);
         }
     }
 }
