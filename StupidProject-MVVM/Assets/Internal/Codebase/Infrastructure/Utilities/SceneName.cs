@@ -9,27 +9,27 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Utilities
     /// <code>
     /// private IEnumerator LoadScene(string sceneName)
     /// {
-    ///     yield return SceneManager.LoadSceneAsync(SceneName.GAMEPLAY);
+    ///     yield return SceneManager.LoadSceneAsync(SceneName.Gameplay);
     /// }
     /// </code>
     /// </summary>
-    public static class SceneName
+    public readonly struct SceneName
     {
         /// <summary>
         /// Работает как точка входа и одновременно как TransitionBridge. То есть вызывает GC финализацию при переходах между сценами.
         /// Обычно использую отдельную сцену TransitionBridge.unity, но на этом проекте сцена Boot возьмет на себя эту роль.
         /// </summary>
-        public static readonly string BOOT = "Boot";
+        public const string Boot = nameof(Boot);
 
         /// <summary>
         /// Сцена, которая служит прослойкой между первой частью игры (Boot/Registration и тп) и сценами с активным геймплеем.
         /// В Murder Drones Endless Way - это сена с магазинами. В танках - гараж. 
         /// </summary>
-        public static readonly string MAIN_MENU = "MainMenu";
+        public const string MainMenu = nameof(MainMenu);
 
         /// <summary>
         /// Геймплей сцена (сцена на которой происходит сам игровой процесс).
         /// </summary>
-        public static readonly string GAMEPLAY = "Gameplay";
+        public const string Gameplay = nameof(Gameplay);
     }
 }
