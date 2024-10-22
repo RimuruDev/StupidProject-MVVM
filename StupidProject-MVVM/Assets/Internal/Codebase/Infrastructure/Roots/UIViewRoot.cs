@@ -34,7 +34,7 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Roots
                 return;
             }
 
-            sceneUI.transform.SetParent(sceneUI.transform, worldPositionStays: false);
+            sceneUI.transform.SetParent(uiSceneContainer, worldPositionStays: false);
         }
 
         private void ClearSceneUI()

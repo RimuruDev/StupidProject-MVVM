@@ -481,7 +481,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5891952564223488619}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 195419510412163061}
+        m_TargetAssemblyTypeName: AbyssMoth.Internal.Codebase.Runtime.MainMenu.View.UIMainMenuRootBinder,
+          Assembly-CSharp
+        m_MethodName: HandleGoToGameplayButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7866947063820878335
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,6 +504,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6855575959490319114}
+  - component: {fileID: 195419510412163061}
   m_Layer: 0
   m_Name: MainMenuUI
   m_TagString: Untagged
@@ -520,3 +534,15 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &195419510412163061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7866947063820878335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8253232f66614f928c4ffeccc6694c33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

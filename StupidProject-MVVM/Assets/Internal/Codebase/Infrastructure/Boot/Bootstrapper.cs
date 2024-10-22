@@ -71,7 +71,7 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
                 yield return cooldownTwoSeconds;
 
                 var sceneEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>(FindObjectsInactive.Include);
-                sceneEntryPoint.Run();
+                sceneEntryPoint.Run(uiRoot);
             }
             uiRoot.HideLoadingScreen();
         }
