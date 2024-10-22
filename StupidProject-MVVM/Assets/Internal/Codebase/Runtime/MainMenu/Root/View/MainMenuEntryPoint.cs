@@ -1,9 +1,8 @@
 using System;
 using AbyssMoth.Internal.Codebase.Infrastructure.Roots;
-using AbyssMoth.Internal.Codebase.Runtime.MainMenu.View;
 using UnityEngine;
 
-namespace AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root
+namespace AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.View
 {
     public class MainMenuEntryPoint : MonoBehaviour
     {

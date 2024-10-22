@@ -1,9 +1,8 @@
 using System;
 using AbyssMoth.Internal.Codebase.Infrastructure.Roots;
-using AbyssMoth.Internal.Codebase.Runtime.Gameplay.View;
 using UnityEngine;
 
-namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root
+namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.View
 {
     public class GameplayEntryPoint : MonoBehaviour
     {
