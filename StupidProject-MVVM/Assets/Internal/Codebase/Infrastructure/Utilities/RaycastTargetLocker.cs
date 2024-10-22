@@ -3,8 +3,9 @@ using UnityEngine.UI;
 
 namespace AbyssMoth.Internal.Codebase.Infrastructure.Utilities
 {
+    [DisallowMultipleComponent]
     [RequireComponent(typeof(Image))]
-    public class RaycastTargetLocker : MonoBehaviour
+    public sealed class RaycastTargetLocker : MonoBehaviour
     {
         [SerializeField, HideInInspector] private Image targetImage;
 

@@ -2,6 +2,7 @@ using System.Collections;
 using AbyssMoth.Internal.Codebase.Infrastructure.AssetManagement;
 using AbyssMoth.Internal.Codebase.Infrastructure.Roots;
 using AbyssMoth.Internal.Codebase.Infrastructure.Utilities;
+using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,8 +11,8 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
     public sealed class Bootstrapper
     {
         private static Bootstrapper selfInstance;
-        private CoroutineProvider coroutineProvider;
-        public UIViewRoot uiRoot;
+        private readonly CoroutineProvider coroutineProvider;
+        private readonly UIViewRoot uiRoot;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Initialization()
@@ -24,10 +25,10 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
 
         private Bootstrapper()
         {
-            coroutineProvider = Helper.CreateNewGameObject<CoroutineProvider>();
+            coroutineProvider = Helper.CreateNewGameObject<CoroutineProvider>(dontDestroyOnLoad: true);
 
             var prefabUIViewRoot = Resources.Load<UIViewRoot>(AssetPath.UIRoot);
-            Helper.InstantiateDontDestroyOnLoad(prefabUIViewRoot);
+            uiRoot = Helper.InstantiateDontDestroyOnLoad(prefabUIViewRoot);
         }
 
         private static void SetupSystemSettings()
@@ -37,12 +38,6 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
         }
 
         private void StartGame()
-        {
-            HandleEditor();
-            HandleRuntime();
-        }
-
-        private void HandleEditor()
         {
 #if UNITY_EDITOR
             var sceneName = SceneManager.GetActiveScene().name;
@@ -56,10 +51,7 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
             if (sceneName != SceneName.BOOT)
                 return;
 #endif
-        }
 
-        private void HandleRuntime()
-        {
             coroutineProvider.StartCoroutine(LoadAndStartGameplay());
         }
 
@@ -68,12 +60,19 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
             uiRoot.ShowLoadingScreen();
             {
                 yield return LoadScene(SceneName.BOOT);
+                yield return LoadScene(SceneName.GAMEPLAY);
+
+                yield return new WaitForEndOfFrame();
+
+                var sceneEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>(FindObjectsInactive.Include);
+                sceneEntryPoint.Run();
             }
             uiRoot.HideLoadingScreen();
         }
 
         private IEnumerator LoadScene(string sceneName)
         {
+            Debug.Log($"LoadSceneAsync({sceneName});", coroutineProvider.gameObject);
             yield return SceneManager.LoadSceneAsync(sceneName);
         }
     }
