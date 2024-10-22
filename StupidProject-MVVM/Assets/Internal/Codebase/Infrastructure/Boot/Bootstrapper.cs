@@ -1,7 +1,9 @@
+using System.Collections;
 using AbyssMoth.Internal.Codebase.Infrastructure.AssetManagement;
 using AbyssMoth.Internal.Codebase.Infrastructure.Roots;
 using AbyssMoth.Internal.Codebase.Infrastructure.Utilities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
 {
@@ -36,6 +38,43 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
 
         private void StartGame()
         {
+            HandleEditor();
+            HandleRuntime();
+        }
+
+        private void HandleEditor()
+        {
+#if UNITY_EDITOR
+            var sceneName = SceneManager.GetActiveScene().name;
+
+            if (sceneName == SceneName.GAMEPLAY)
+            {
+                coroutineProvider.StartCoroutine(LoadAndStartGameplay());
+                return;
+            }
+
+            if (sceneName != SceneName.BOOT)
+                return;
+#endif
+        }
+
+        private void HandleRuntime()
+        {
+            coroutineProvider.StartCoroutine(LoadAndStartGameplay());
+        }
+
+        private IEnumerator LoadAndStartGameplay()
+        {
+            uiRoot.ShowLoadingScreen();
+            {
+                yield return LoadScene(SceneName.BOOT);
+            }
+            uiRoot.HideLoadingScreen();
+        }
+
+        private IEnumerator LoadScene(string sceneName)
+        {
+            yield return SceneManager.LoadSceneAsync(sceneName);
         }
     }
 }
