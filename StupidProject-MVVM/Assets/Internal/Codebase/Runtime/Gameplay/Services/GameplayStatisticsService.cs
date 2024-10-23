@@ -16,7 +16,7 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Services
 
         public void Dispose()
         {
-            Debug.Log($"{GetType().Name} Dispose!");
+            Debug.Log($"<color=yellow>{GetType().Name} Dispose!</color>");
         }
     }
 }

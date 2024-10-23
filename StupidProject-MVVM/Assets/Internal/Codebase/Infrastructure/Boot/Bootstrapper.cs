@@ -56,7 +56,7 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
 
         private void RegisterGlobalFactory()
         {
-            projectContext.RegisterFactory(_ => new SomeCommandService());
+            projectContext.RegisterFactory(_ => new SomeCommandService()).AsSingle();
         }
 
         private static void SetupSystemSettings()

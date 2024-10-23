@@ -9,7 +9,7 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.Installer
     {
         public static void Resolve(DIContainer diContainer, GameplayEnterParams gameplayEnterParams)
         {
-            diContainer.RegisterFactory(container => new GameplayStatisticsService(container.Resolve<SomeCommandService>()));
+            diContainer.RegisterFactory(container => new GameplayStatisticsService(container.Resolve<SomeCommandService>())).AsSingle();
         }
     }
 }

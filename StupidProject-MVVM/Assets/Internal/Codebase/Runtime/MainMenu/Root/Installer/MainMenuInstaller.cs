@@ -9,7 +9,7 @@ namespace AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.Installer
     {
         public static void Resolve(DIContainer diContainer, MainMenuEnterParams mainMenuEnterParams)
         {
-            diContainer.RegisterFactory(container => new SkinShopService(container.Resolve<SomeCommandService>()));
+            diContainer.RegisterFactory(container => new SkinShopService(container.Resolve<SomeCommandService>())).AsSingle();
         }
     }
 }
