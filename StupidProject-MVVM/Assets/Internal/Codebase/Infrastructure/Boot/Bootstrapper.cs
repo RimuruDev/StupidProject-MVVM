@@ -1,12 +1,14 @@
 using UnityEngine;
 using System.Collections;
+using AbyssMoth.DI;
 using UnityEngine.SceneManagement;
 using AbyssMoth.Internal.Codebase.Infrastructure.Roots;
-using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root;
 using AbyssMoth.Internal.Codebase.Infrastructure.Utilities;
 using AbyssMoth.Internal.Codebase.Infrastructure.AssetManagement;
+using AbyssMoth.Internal.Codebase.Infrastructure.Services;
+using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.GameplayParams;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.View;
-using AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root;
+using AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.MainMenuParams;
 using AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.View;
 using R3;
 
@@ -21,6 +23,8 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
         private static Bootstrapper selfInstance;
         private readonly UIViewRoot uiRoot;
         private readonly CoroutineProvider coroutineProvider;
+        private readonly DIContainer projectContext = new();
+        private DIContainer cachedSceneContainer;
 
         private readonly WaitForSeconds cooldownTwoSeconds = new(seconds: 2f);
 
@@ -39,6 +43,20 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
 
             var prefabUIViewRoot = Resources.Load<UIViewRoot>(AssetPath.UIRoot);
             uiRoot = Helper.InstantiateDontDestroyOnLoad(prefabUIViewRoot);
+
+            // Game Registrations
+            RegisterGlobalServices();
+            RegisterGlobalFactory();
+        }
+
+        private void RegisterGlobalServices()
+        {
+            projectContext.RegisterInstance(uiRoot);
+        }
+
+        private void RegisterGlobalFactory()
+        {
+            projectContext.RegisterFactory(_ => new SomeCommandService()).AsSingle();
         }
 
         private static void SetupSystemSettings()
@@ -74,6 +92,7 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
         private IEnumerator LoadAndStartGameplay(GameplayEnterParams enterParams = null)
         {
             uiRoot.ShowLoadingScreen();
+            cachedSceneContainer?.Dispose();
             {
                 yield return LoadScene(SceneName.Boot);
                 yield return LoadScene(SceneName.Gameplay);
@@ -82,8 +101,10 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
 
                 var sceneEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>(FindObjectsInactive.Include);
 
+                var gameplaySceneContainer = cachedSceneContainer = new DIContainer(projectContext);
+
                 sceneEntryPoint
-                    .Run(uiRoot, enterParams)
+                    .Run(gameplaySceneContainer, enterParams)
                     .Subscribe(gameplayExitParams =>
                     {
                         coroutineProvider.StartCoroutine(
@@ -96,6 +117,7 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
         private IEnumerator LoadAndStartMainMenu(MainMenuEnterParams enterParams = null)
         {
             uiRoot.ShowLoadingScreen();
+            cachedSceneContainer?.Dispose();
             {
                 yield return LoadScene(SceneName.Boot);
                 yield return LoadScene(SceneName.MainMenu);
@@ -104,8 +126,10 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
 
                 var sceneEntryPoint = Object.FindFirstObjectByType<MainMenuEntryPoint>(FindObjectsInactive.Include);
 
+                var mainMenuSceneContainer = cachedSceneContainer = new DIContainer(projectContext);
+
                 sceneEntryPoint
-                    .Run(uiRoot, enterParams)
+                    .Run(mainMenuSceneContainer, enterParams)
                     .Subscribe(mainMenuExitParams =>
                     {
                         var sceneName = mainMenuExitParams.TargetSceneEnterParams.SceneName;
@@ -113,7 +137,8 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
                         switch (sceneName)
                         {
                             case SceneName.Gameplay:
-                                coroutineProvider.StartCoroutine(routine: LoadAndStartGameplay(mainMenuExitParams.TargetSceneEnterParams.As<GameplayEnterParams>()));
+                                var param = mainMenuExitParams.TargetSceneEnterParams.As<GameplayEnterParams>();
+                                coroutineProvider.StartCoroutine(routine: LoadAndStartGameplay(param));
                                 break;
                             case SceneName.MainMenu:
                                 coroutineProvider.StartCoroutine(routine: LoadAndStartMainMenu());
@@ -136,7 +161,9 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
             if (!LoggerEnable)
                 return;
 
+#pragma warning disable CS0162 // Unreachable code detected
             Debug.Log(message, context);
+#pragma warning restore CS0162 // Unreachable code detected
         }
     }
 }
