@@ -6,6 +6,7 @@ using AbyssMoth.Internal.Codebase.Infrastructure.Roots;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root;
 using AbyssMoth.Internal.Codebase.Infrastructure.Utilities;
 using AbyssMoth.Internal.Codebase.Infrastructure.AssetManagement;
+using AbyssMoth.Internal.Codebase.Infrastructure.Services;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.View;
 using AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root;
 using AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.View;
@@ -43,12 +44,19 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
             var prefabUIViewRoot = Resources.Load<UIViewRoot>(AssetPath.UIRoot);
             uiRoot = Helper.InstantiateDontDestroyOnLoad(prefabUIViewRoot);
 
+            // Game Registrations
             RegisterGlobalServices();
+            RegisterGlobalFactory();
         }
 
         private void RegisterGlobalServices()
         {
             projectContext.RegisterInstance(uiRoot);
+        }
+
+        private void RegisterGlobalFactory()
+        {
+            projectContext.RegisterFactory(_ => new SomeCommandService());
         }
 
         private static void SetupSystemSettings()

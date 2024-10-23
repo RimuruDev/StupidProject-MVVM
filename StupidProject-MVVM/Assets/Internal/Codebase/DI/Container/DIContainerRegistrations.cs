@@ -6,6 +6,7 @@ namespace AbyssMoth.Internal.Codebase.DI.Container
 {
     public sealed partial class DIContainer
     {
+        // NOTE: Lazy Registration
         public DIEntryBase RegisterFactory<T>(Func<DIContainer, T> factory) =>
             RegisterFactory(null, factory);
 
@@ -23,6 +24,7 @@ namespace AbyssMoth.Internal.Codebase.DI.Container
             return diEntry;
         }
 
+        // NOTE: Not Lazy Registration
         public void RegisterInstance<T>(T instance) =>
             RegisterInstance(null, instance);
 
