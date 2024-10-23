@@ -1,10 +1,9 @@
-using System;
-using AbyssMoth.Internal.Codebase.DI.Container;
-using AbyssMoth.Internal.Codebase.Infrastructure.Roots;
-using AbyssMoth.Internal.Codebase.Infrastructure.Utilities;
-using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root;
 using R3;
 using UnityEngine;
+using AbyssMoth.Internal.Codebase.DI.Container;
+using AbyssMoth.Internal.Codebase.Infrastructure.Roots;
+using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root;
+using AbyssMoth.Internal.Codebase.Infrastructure.Utilities;
 
 namespace AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.View
 {
@@ -12,16 +11,20 @@ namespace AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.View
     {
         [SerializeField] private UIMainMenuRootBinder sceneRootUIPrefab;
 
-        public Observable<MainMenuExitParams> Run(DIContainer diContainer, MainMenuEnterParams mainMenuEnterParams)
+        public Observable<MainMenuExitParams> Run(DIContainer mainMenuDiContainer, MainMenuEnterParams mainMenuEnterParams)
         {
             // Register all
-            MainMenuInstaller.Resolve(diContainer, mainMenuEnterParams);
+            MainMenuInstaller.Resolve(mainMenuDiContainer, mainMenuEnterParams);
+            
+            // Register all View-Model for gameplay
+            var mainMenuUIViewModelsContainer = new DIContainer(mainMenuDiContainer);
+            MainMenuViewModelsRegistrations.Register(mainMenuUIViewModelsContainer);
             
             // Create UI
             var instance = Instantiate(sceneRootUIPrefab);
 
             // Get and Attach
-            var uiViewRoot = diContainer.Resolve<UIViewRoot>();
+            var uiViewRoot = mainMenuDiContainer.Resolve<UIViewRoot>();
             uiViewRoot.AttachSceneUI(instance.gameObject);
 
             // Bind subject
