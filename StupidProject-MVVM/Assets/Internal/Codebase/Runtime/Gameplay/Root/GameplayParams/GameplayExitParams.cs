@@ -1,6 +1,7 @@
 using AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root;
+using AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.MainMenuParams;
 
-namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root
+namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.GameplayParams
 {
     public class GameplayExitParams
     {

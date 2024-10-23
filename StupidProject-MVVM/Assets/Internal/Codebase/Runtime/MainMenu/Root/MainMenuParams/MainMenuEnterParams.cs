@@ -1,4 +1,4 @@
-namespace AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root
+namespace AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.MainMenuParams
 {
     public class MainMenuEnterParams
     {

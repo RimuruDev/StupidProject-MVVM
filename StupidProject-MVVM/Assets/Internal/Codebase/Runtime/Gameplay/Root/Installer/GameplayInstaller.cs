@@ -1,8 +1,9 @@
 using AbyssMoth.Internal.Codebase.DI.Container;
 using AbyssMoth.Internal.Codebase.Infrastructure.Services;
+using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.GameplayParams;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Services;
 
-namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root
+namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.Installer
 {
     public static class GameplayInstaller
     {

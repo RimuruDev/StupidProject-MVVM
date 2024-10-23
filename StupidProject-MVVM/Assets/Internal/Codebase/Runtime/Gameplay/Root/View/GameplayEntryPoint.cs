@@ -2,7 +2,10 @@ using R3;
 using UnityEngine;
 using AbyssMoth.Internal.Codebase.DI.Container;
 using AbyssMoth.Internal.Codebase.Infrastructure.Roots;
+using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.GameplayParams;
+using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.Installer;
 using AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root;
+using AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.MainMenuParams;
 
 namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.View
 {
@@ -18,6 +21,10 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.View
             // Register all View-Model for gameplay
             var gameplayUIViewModelsContainer = new DIContainer(gameplayDiContainer);
             GameplayViewModelsRegistrations.Register(gameplayUIViewModelsContainer);
+            
+            // Test Resolve
+            gameplayUIViewModelsContainer.Resolve<UIGameplayRootViewModel>();
+            gameplayUIViewModelsContainer.Resolve<WorldGameplayRootViewModel>();
                 
             // Create UI
             var instance = Instantiate(sceneUIRootPrefab);

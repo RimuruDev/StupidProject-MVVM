@@ -1,4 +1,5 @@
 using AbyssMoth.Internal.Codebase.Infrastructure.Services;
+using UnityEngine;
 
 namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.View
 {
@@ -9,6 +10,8 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.View
         public UIGameplayRootViewModel(SomeCommandService someCommandService)
         {
             this.someCommandService = someCommandService;
+            
+            Debug.Log($"{GetType().Name} has been created!");
         }
     }
 }

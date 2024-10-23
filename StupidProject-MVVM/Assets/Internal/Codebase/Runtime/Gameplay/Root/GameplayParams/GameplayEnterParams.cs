@@ -1,6 +1,6 @@
 using AbyssMoth.Internal.Codebase.Infrastructure.Roots;
 
-namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root
+namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.GameplayParams
 {
     public class GameplayEnterParams : SceneEnterParams
     {

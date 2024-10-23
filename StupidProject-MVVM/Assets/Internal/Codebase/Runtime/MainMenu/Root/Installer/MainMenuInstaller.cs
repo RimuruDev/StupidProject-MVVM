@@ -1,8 +1,9 @@
 using AbyssMoth.Internal.Codebase.DI.Container;
 using AbyssMoth.Internal.Codebase.Infrastructure.Services;
+using AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.MainMenuParams;
 using AbyssMoth.Internal.Codebase.Runtime.MainMenu.Services;
 
-namespace AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root
+namespace AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.Installer
 {
     public static class MainMenuInstaller
     {
