@@ -6,7 +6,9 @@ namespace AbyssMoth.DI
     {
         private Func<DIContainer, T> Factory { get; }
         private T instance;
-        private IDisposable disposableInstance;
+        private bool isDisposed;
+
+        protected IDisposable disposableInstance;
 
         public DIEntry(DIContainer container, Func<DIContainer, T> factory) : base(container) =>
             Factory = factory;
@@ -19,6 +21,11 @@ namespace AbyssMoth.DI
                 disposableInstance = disposable;
 
             IsSingleton = true;
+        }
+
+        ~DIEntry()
+        {
+            Dispose();
         }
 
         public T Resolve()
@@ -39,7 +46,14 @@ namespace AbyssMoth.DI
             return Factory(Container);
         }
 
-        public override void Dispose() =>
+        public override void Dispose()
+        {
+            if (isDisposed)
+                return;
+
+            isDisposed = true;
+
             disposableInstance?.Dispose();
+        }
     }
 }
