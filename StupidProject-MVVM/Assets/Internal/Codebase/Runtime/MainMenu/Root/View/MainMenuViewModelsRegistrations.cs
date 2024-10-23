@@ -1,4 +1,4 @@
-using AbyssMoth.Internal.Codebase.DI.Container;
+using AbyssMoth.DI;
 
 namespace AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.View
 {

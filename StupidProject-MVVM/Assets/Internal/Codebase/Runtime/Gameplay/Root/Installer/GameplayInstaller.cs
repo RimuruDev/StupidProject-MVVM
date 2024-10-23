@@ -1,4 +1,4 @@
-using AbyssMoth.Internal.Codebase.DI.Container;
+using AbyssMoth.DI;
 using AbyssMoth.Internal.Codebase.Infrastructure.Services;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.GameplayParams;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Services;

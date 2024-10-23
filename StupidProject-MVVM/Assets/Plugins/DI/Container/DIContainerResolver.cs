@@ -1,6 +1,4 @@
-using AbyssMoth.Internal.Codebase.DI.Utilities;
-
-namespace AbyssMoth.Internal.Codebase.DI.Container
+namespace AbyssMoth.DI
 {
     public sealed partial class DIContainer
     {

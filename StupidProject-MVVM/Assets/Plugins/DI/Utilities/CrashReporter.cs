@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
-using AbyssMoth.Internal.Codebase.DI.Exceptions;
 
-namespace AbyssMoth.Internal.Codebase.DI.Utilities
+namespace AbyssMoth.DI
 {
     public static class CrashReporter
     {

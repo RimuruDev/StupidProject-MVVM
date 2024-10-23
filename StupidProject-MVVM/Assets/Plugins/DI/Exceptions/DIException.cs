@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace AbyssMoth.Internal.Codebase.DI.Exceptions
+namespace AbyssMoth.DI
 {
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class DIException : Exception

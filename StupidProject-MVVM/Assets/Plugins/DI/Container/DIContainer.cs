@@ -1,9 +1,8 @@
 using System;
 using JetBrains.Annotations;
 using System.Collections.Generic;
-using AbyssMoth.Internal.Codebase.DI.Entytys;
 
-namespace AbyssMoth.Internal.Codebase.DI.Container
+namespace AbyssMoth.DI
 {
     [UsedImplicitly]
     public sealed partial class DIContainer : IDisposable

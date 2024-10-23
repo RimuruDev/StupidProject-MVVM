@@ -1,7 +1,6 @@
 using System;
-using AbyssMoth.Internal.Codebase.DI.Container;
 
-namespace AbyssMoth.Internal.Codebase.DI.Entytys
+namespace AbyssMoth.DI
 {
     public class DIEntry<T> : DIEntryBase
     {

@@ -1,4 +1,4 @@
-using AbyssMoth.Internal.Codebase.DI.Container;
+using AbyssMoth.DI;
 using AbyssMoth.Internal.Codebase.Infrastructure.Services;
 
 namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.View
