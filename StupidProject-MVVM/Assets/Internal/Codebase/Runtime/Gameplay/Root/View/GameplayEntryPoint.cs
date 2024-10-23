@@ -12,6 +12,9 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.View
 
         public Observable<GameplayExitParams> Run(DIContainer diContainer, GameplayEnterParams gameplayEnterParams)
         {
+            // Register all
+            GameplayInstaller.Resolve(diContainer, gameplayEnterParams);
+                
             // Create UI
             var instance = Instantiate(sceneUIRootPrefab);
 

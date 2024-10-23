@@ -6,6 +6,7 @@ namespace AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.View
     {
         public static void Resolve(DIContainer diContainer)
         {
+            diContainer.RegisterFactory(c => new UIMainMenuRootViewModel());
         }
     }
 }

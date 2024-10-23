@@ -1,4 +1,5 @@
 using AbyssMoth.Internal.Codebase.DI.Container;
+using AbyssMoth.Internal.Codebase.Infrastructure.Services;
 
 namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.View
 {
@@ -6,7 +7,8 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.View
     {
         public static void Resolve(DIContainer diContainer)
         {
-            
+            diContainer.RegisterFactory(c => new WorldGameplayRootViewModel());
+            diContainer.RegisterFactory(c => new UIGameplayRootViewModel(c.Resolve<SomeCommandService>()));
         }
     }
 }

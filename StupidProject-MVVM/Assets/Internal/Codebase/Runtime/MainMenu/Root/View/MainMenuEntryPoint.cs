@@ -14,6 +14,9 @@ namespace AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.View
 
         public Observable<MainMenuExitParams> Run(DIContainer diContainer, MainMenuEnterParams mainMenuEnterParams)
         {
+            // Register all
+            MainMenuInstaller.Resolve(diContainer, mainMenuEnterParams);
+            
             // Create UI
             var instance = Instantiate(sceneRootUIPrefab);
 
