@@ -19,7 +19,7 @@ namespace AbyssMoth.DI
             var entries = entriesMap.Values;
 
             foreach (var entry in entries)
-                entry.Dispose();
+                entry?.Dispose();
         }
     }
 }

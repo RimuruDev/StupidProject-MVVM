@@ -161,7 +161,9 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
             if (!LoggerEnable)
                 return;
 
+#pragma warning disable CS0162 // Unreachable code detected
             Debug.Log(message, context);
+#pragma warning restore CS0162 // Unreachable code detected
         }
     }
 }
