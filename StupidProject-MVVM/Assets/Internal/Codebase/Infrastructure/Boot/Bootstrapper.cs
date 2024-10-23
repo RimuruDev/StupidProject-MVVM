@@ -84,6 +84,7 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
         private IEnumerator LoadAndStartGameplay(GameplayEnterParams enterParams = null)
         {
             uiRoot.ShowLoadingScreen();
+            cachedSceneContainer?.Dispose();
             {
                 yield return LoadScene(SceneName.Boot);
                 yield return LoadScene(SceneName.Gameplay);
@@ -108,6 +109,7 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
         private IEnumerator LoadAndStartMainMenu(MainMenuEnterParams enterParams = null)
         {
             uiRoot.ShowLoadingScreen();
+            cachedSceneContainer?.Dispose();
             {
                 yield return LoadScene(SceneName.Boot);
                 yield return LoadScene(SceneName.MainMenu);
