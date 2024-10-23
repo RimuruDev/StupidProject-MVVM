@@ -1,19 +1,26 @@
 using System;
 using JetBrains.Annotations;
 using System.Collections.Generic;
+using AbyssMoth.Internal.Codebase.DI.Entytys;
 
 namespace AbyssMoth.Internal.Codebase.DI.Container
 {
     [UsedImplicitly]
-    public partial class DIContainer
+    public sealed partial class DIContainer : IDisposable
     {
         private readonly DIContainer parentContainer;
-        private readonly HashSet<(string, Type)> resolutions = new();
-        private readonly Dictionary<(string, Type), DIRegistration> registrations = new();
+        private readonly Dictionary<(string, Type), DIEntryBase> entriesMap = new();
+        private readonly HashSet<(string, Type)> resolutionsCache = new();
 
-        public DIContainer(DIContainer parentContainer = null)
-        {
+        public DIContainer(DIContainer parentContainer = null) =>
             this.parentContainer = parentContainer;
+
+        public void Dispose()
+        {
+            var entries = entriesMap.Values;
+
+            foreach (var entry in entries)
+                entry.Dispose();
         }
     }
 }
