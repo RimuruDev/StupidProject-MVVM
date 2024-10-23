@@ -1,9 +1,11 @@
-using System;
-using AbyssMoth.Internal.Codebase.Infrastructure.Roots;
-using AbyssMoth.Internal.Codebase.Infrastructure.Utilities;
-using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root;
+using AbyssMoth.DI;
 using R3;
 using UnityEngine;
+using AbyssMoth.Internal.Codebase.Infrastructure.Roots;
+using AbyssMoth.Internal.Codebase.Infrastructure.Utilities;
+using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.GameplayParams;
+using AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.Installer;
+using AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.MainMenuParams;
 
 namespace AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.View
 {
@@ -11,9 +13,23 @@ namespace AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.View
     {
         [SerializeField] private UIMainMenuRootBinder sceneRootUIPrefab;
 
-        public Observable<MainMenuExitParams> Run(UIViewRoot uiViewRoot, MainMenuEnterParams mainMenuEnterParams)
+        public Observable<MainMenuExitParams> Run(DIContainer mainMenuDiContainer, MainMenuEnterParams mainMenuEnterParams)
         {
+            // Register all
+            MainMenuInstaller.Resolve(mainMenuDiContainer, mainMenuEnterParams);
+            
+            // Register all View-Model for gameplay
+            var mainMenuUIViewModelsContainer = new DIContainer(mainMenuDiContainer);
+            MainMenuViewModelsRegistrations.Register(mainMenuUIViewModelsContainer);
+            
+            // Test Resolve
+            mainMenuUIViewModelsContainer.Resolve<UIMainMenuRootViewModel>();
+            
+            // Create UI
             var instance = Instantiate(sceneRootUIPrefab);
+
+            // Get and Attach
+            var uiViewRoot = mainMenuDiContainer.Resolve<UIViewRoot>();
             uiViewRoot.AttachSceneUI(instance.gameObject);
 
             // Bind subject
@@ -25,9 +41,9 @@ namespace AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.View
             var mainMenuExitParams = new MainMenuExitParams(gameplayEnterParams);
 
             var exitTiGameplay = exitSceneSubject.Select(_ => mainMenuExitParams);
-         
+
             Debug.Log($"Gameplay scene loaded: {mainMenuEnterParams?.Result}");
-            
+
             return exitTiGameplay;
         }
     }

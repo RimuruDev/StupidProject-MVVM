@@ -4,7 +4,7 @@ using UnityEngine;
 namespace AbyssMoth.Internal.Codebase.Infrastructure.Roots
 {
     [DisallowMultipleComponent]
-    public sealed class UIViewRoot : MonoBehaviour
+    public sealed class UIViewRoot : MonoBehaviour, IDisposable
     {
         [SerializeField] private GameObject loadingScreen;
         [SerializeField] private Transform uiSceneContainer;
@@ -43,6 +43,11 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Roots
 
             for (var i = 0; i < childCount; i++)
                 Destroy(uiSceneContainer.GetChild(i).gameObject);
+        }
+
+        public void Dispose()
+        {
+            Debug.Log($"Dispose().Test");
         }
     }
 }
