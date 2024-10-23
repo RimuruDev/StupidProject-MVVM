@@ -1,4 +1,5 @@
 using System;
+using AbyssMoth.Internal.Codebase.DI.Container;
 using AbyssMoth.Internal.Codebase.Infrastructure.Roots;
 using AbyssMoth.Internal.Codebase.Infrastructure.Utilities;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root;
@@ -11,9 +12,13 @@ namespace AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.View
     {
         [SerializeField] private UIMainMenuRootBinder sceneRootUIPrefab;
 
-        public Observable<MainMenuExitParams> Run(UIViewRoot uiViewRoot, MainMenuEnterParams mainMenuEnterParams)
+        public Observable<MainMenuExitParams> Run(DIContainer diContainer, MainMenuEnterParams mainMenuEnterParams)
         {
+            // Create UI
             var instance = Instantiate(sceneRootUIPrefab);
+
+            // Get and Attach
+            var uiViewRoot = diContainer.Resolve<UIViewRoot>();
             uiViewRoot.AttachSceneUI(instance.gameObject);
 
             // Bind subject
@@ -25,9 +30,9 @@ namespace AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.View
             var mainMenuExitParams = new MainMenuExitParams(gameplayEnterParams);
 
             var exitTiGameplay = exitSceneSubject.Select(_ => mainMenuExitParams);
-         
+
             Debug.Log($"Gameplay scene loaded: {mainMenuEnterParams?.Result}");
-            
+
             return exitTiGameplay;
         }
     }
