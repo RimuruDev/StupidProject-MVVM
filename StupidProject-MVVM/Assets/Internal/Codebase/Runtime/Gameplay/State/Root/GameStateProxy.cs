@@ -11,11 +11,14 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Root
     {
         public ObservableList<BuildingEntityProxy> Buildings { get; } = new();
 
+        private readonly IDisposable addSubscription;
+        private readonly IDisposable removeSubscription;
+
         public GameStateProxy(GameState gameState)
         {
             gameState.Buildings.ForEach(buildingOrigin => Buildings.Add(new BuildingEntityProxy(buildingOrigin)));
 
-            Buildings.ObserveAdd().Subscribe(collectionAddEvent =>
+            addSubscription = Buildings.ObserveAdd().Subscribe(collectionAddEvent =>
             {
                 var addedBuildingEntity = collectionAddEvent.Value;
 
@@ -28,10 +31,11 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Root
                 });
             });
 
-            Buildings.ObserveRemove().Subscribe(e =>
+            removeSubscription = Buildings.ObserveRemove().Subscribe(e =>
             {
                 var removedBuildingEntityProxy = e.Value;
-                var removedBuildingEntity = gameState.Buildings.FirstOrDefault(b => b.Id == removedBuildingEntityProxy.Id);
+                var removedBuildingEntity =
+                    gameState.Buildings.FirstOrDefault(b => b.Id == removedBuildingEntityProxy.Id);
                 gameState.Buildings.Remove(removedBuildingEntity);
             });
         }
@@ -39,9 +43,10 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Root
         public void Dispose()
         {
             DisposeLogger.Log(this);
-            
-            Buildings.ObserveAdd().Subscribe().Dispose();
-            Buildings.ObserveRemove().Subscribe().Dispose();
+
+            addSubscription?.Dispose();
+            removeSubscription?.Dispose();
+
             Buildings.Clear();
         }
     }
