@@ -3,17 +3,16 @@ using System;
 using System.Linq;
 using ObservableCollections;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Buildings;
+using UnityEngine;
 
 namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Root
 {
     public class GameStateProxy : IDisposable
     {
-        public ObservableList<BuildingEntityProxy> Buildings { get; }
+        public ObservableList<BuildingEntityProxy> Buildings { get; } = new();
 
         public GameStateProxy(GameState gameState)
         {
-            Buildings = new ObservableList<BuildingEntityProxy>();
-
             gameState.Buildings.ForEach(buildingOrigin => Buildings.Add(new BuildingEntityProxy(buildingOrigin)));
 
             Buildings.ObserveAdd().Subscribe(collectionAddEvent =>
@@ -39,7 +38,11 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Root
 
         public void Dispose()
         {
-            // Buildings Dispose
+            DisposeLogger.Log(this);
+            
+            Buildings.ObserveAdd().Subscribe().Dispose();
+            Buildings.ObserveRemove().Subscribe().Dispose();
+            Buildings.Clear();
         }
     }
 }

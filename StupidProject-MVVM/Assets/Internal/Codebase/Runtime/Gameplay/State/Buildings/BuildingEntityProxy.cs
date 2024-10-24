@@ -28,6 +28,8 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Buildings
 
         public void Dispose()
         {
+            DisposeLogger.Log(this);
+            
             Position?.Dispose();
             Level?.Dispose();
         }
