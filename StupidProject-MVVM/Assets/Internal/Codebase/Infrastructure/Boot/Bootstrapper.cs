@@ -49,6 +49,8 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
             projectContext.RegisterInstance(uiRoot);
 
             var gameStateProvider = new PlayerPrefsGameStateProvider();
+            gameStateProvider.LoadSettingsState();
+            
             projectContext.RegisterInstance<IGameStateProvider>(gameStateProvider);
             projectContext.RegisterFactory(_ => new SomeCommandService(gameStateProvider)).AsSingle();
         }
