@@ -6,14 +6,14 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Buildings
 {
     public class BuildingEntityProxy : IDisposable
     {
-        private const int FirstElement = 1;
-        
+        private const int SkipFirstInvoke = 1;
+
         public int Id { get; }
         public string TypeId { get; }
 
         public ReactiveProperty<Vector3Int> Position { get; }
         public ReactiveProperty<int> Level { get; }
-        
+
         private readonly IDisposable levelSubscription;
         private readonly IDisposable positionSubscription;
 
@@ -25,8 +25,8 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Buildings
             Position = new ReactiveProperty<Vector3Int>(buildingEntity.Position);
             Level = new ReactiveProperty<int>(buildingEntity.Level);
 
-            positionSubscription = Position.Skip(FirstElement).Subscribe(value => buildingEntity.Position = value);
-            levelSubscription = Level.Skip(FirstElement).Subscribe(value => buildingEntity.Level = value);
+            positionSubscription = Position.Skip(SkipFirstInvoke).Subscribe(value => buildingEntity.Position = value);
+            levelSubscription = Level.Skip(SkipFirstInvoke).Subscribe(value => buildingEntity.Level = value);
         }
 
         public void Dispose()
@@ -37,7 +37,7 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Buildings
             levelSubscription?.Dispose();
         }
 
-        public override string ToString() => 
+        public override string ToString() =>
             $"Id: {Id} | TypeId: {TypeId} | Position: [{Position.Value}] | Level: {Level}";
     }
 }
