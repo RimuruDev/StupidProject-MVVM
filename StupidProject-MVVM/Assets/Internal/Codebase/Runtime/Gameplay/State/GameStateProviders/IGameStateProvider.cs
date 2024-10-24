@@ -1,7 +1,7 @@
 using R3;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Root;
 
-namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State
+namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.GameStateProviders
 {
     public interface IGameStateProvider
     {
