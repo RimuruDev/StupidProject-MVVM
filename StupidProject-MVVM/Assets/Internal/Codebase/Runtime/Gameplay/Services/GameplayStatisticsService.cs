@@ -15,7 +15,7 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Services
             this.gameState = gameState;
             this.someCommandService = someCommandService;
 
-            gameState.Buildings.ForEach(Debug.Log);
+            gameState.Buildings.ForEach(x => Debug.Log($"Building: {x}"));
 
             Debug.Log($"{GetType().Name} has been created!");
         }

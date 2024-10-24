@@ -46,21 +46,11 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
             uiRoot = Helper.InstantiateDontDestroyOnLoad(prefabUIViewRoot);
 
             // Game Registrations ===
-            RegisterGlobalServices();
-            RegisterGlobalFactory();
-        }
-
-        private void RegisterGlobalServices()
-        {
             projectContext.RegisterInstance(uiRoot);
 
             var gameStateProvider = new PlayerPrefsGameStateProvider();
             projectContext.RegisterInstance<IGameStateProvider>(gameStateProvider);
-        }
-
-        private void RegisterGlobalFactory()
-        {
-            projectContext.RegisterFactory(_ => new SomeCommandService()).AsSingle();
+            projectContext.RegisterFactory(_ => new SomeCommandService(gameStateProvider)).AsSingle();
         }
 
         private static void SetupSystemSettings()
