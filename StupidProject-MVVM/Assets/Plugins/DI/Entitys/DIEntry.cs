@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace AbyssMoth.DI
 {
@@ -25,7 +26,10 @@ namespace AbyssMoth.DI
 
         ~DIEntry()
         {
-            Dispose();
+#if !UNITY_EDITOR
+            Debug.LogWarning($"~DIEntry() disabled!!! Please use Dispose() or ~DIEntry()");
+#endif
+            // Dispose();
         }
 
         public T Resolve()
