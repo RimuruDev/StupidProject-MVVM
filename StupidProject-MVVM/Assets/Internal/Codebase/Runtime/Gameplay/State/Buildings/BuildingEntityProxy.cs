@@ -6,13 +6,14 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Buildings
 {
     public class BuildingEntityProxy : IDisposable
     {
+        private const int FirstElement = 1;
+        
         public int Id { get; }
         public string TypeId { get; }
 
         public ReactiveProperty<Vector3Int> Position { get; }
         public ReactiveProperty<int> Level { get; }
-
-        private const int FirstElement = 1;
+        
         private readonly IDisposable levelSubscription;
         private readonly IDisposable positionSubscription;
 
