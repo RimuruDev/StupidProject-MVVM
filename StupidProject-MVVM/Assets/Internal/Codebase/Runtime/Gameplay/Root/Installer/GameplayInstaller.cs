@@ -11,8 +11,9 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.Installer
         public static void Resolve(DIContainer diContainer, GameplayEnterParams gameplayEnterParams)
         {
             diContainer.RegisterFactory(container => new GameplayStatisticsService(
-                    container.Resolve<IGameStateProvider>().GameState,
-                container.Resolve<SomeCommandService>())).AsSingle();
+                container.Resolve<IGameStateProvider>().GameState,
+                container.Resolve<SomeCommandService>())
+            ).AsSingle();
         }
     }
 }
