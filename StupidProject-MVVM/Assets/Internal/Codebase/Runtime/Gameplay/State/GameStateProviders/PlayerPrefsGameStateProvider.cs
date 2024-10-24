@@ -13,10 +13,15 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.GameStateProviders
     public class PlayerPrefsGameStateProvider : IGameStateProvider
     {
         private const string GAME_STATE_KEY = nameof(GAME_STATE_KEY);
+        private const string GAME_SETTINGS_KEY = nameof(GAME_SETTINGS_KEY);
 
         public GameStateProxy GameState { get; private set; }
+        public GameSettingsStateProxy SettingsState { get; private set; }
 
+        
         private GameState gameStateOrigin;
+        private GameSettingsState settingsStateOrigin;
+        
 
         public Observable<bool> SaveGameState()
         {
@@ -35,6 +40,24 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.GameStateProviders
 
             return Observable.Return(true);
         }
+
+        public Observable<bool> SaveSettingsState()
+        {
+            try
+            {
+                var json = JsonUtility.ToJson(settingsStateOrigin, true);
+                PlayerPrefs.SetString(GAME_SETTINGS_KEY, json);
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+
+                return Observable.Return(false);
+            }
+
+            return Observable.Return(true);
+        }
+        
 
         public Observable<GameStateProxy> LoadGameState()
         {
@@ -58,6 +81,30 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.GameStateProviders
             return Observable.Return(GameState);
         }
 
+        public Observable<GameSettingsStateProxy> LoadSettingsState()
+        {
+            if (!PlayerPrefs.HasKey(GAME_SETTINGS_KEY))
+            {
+                SettingsState = CreateSettingsStateFromSettings();
+
+                Debug.Log(
+                    $"Game settings state created from settings: {JsonUtility.ToJson(settingsStateOrigin, true)}");
+
+                SaveSettingsState();
+            }
+            else
+            {
+                var json = PlayerPrefs.GetString(GAME_SETTINGS_KEY);
+                settingsStateOrigin = JsonUtility.FromJson<GameSettingsState>(json);
+                SettingsState = new GameSettingsStateProxy(settingsStateOrigin);
+
+                Debug.Log($"_Game settings state loaded: {json}");
+            }
+
+            return Observable.Return(SettingsState);
+        }
+        
+
         public Observable<bool> ResetGameState()
         {
             try
@@ -77,6 +124,27 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.GameStateProviders
 
             return Observable.Return(true);
         }
+
+        public Observable<bool> ResetSettingsState()
+        {
+            try
+            {
+                SettingsState = CreateSettingsStateFromSettings();
+
+                Debug.Log($"Game settings state reset!!!");
+
+                SaveSettingsState();
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex);
+
+                return Observable.Return(false);
+            }
+
+            return Observable.Return(true);
+        }
+        
 
         private GameStateProxy CreateGameStateFromSettings()
         {
@@ -124,6 +192,17 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.GameStateProviders
             };
 
             return new GameStateProxy(gameStateOrigin);
+        }
+
+        private GameSettingsStateProxy CreateSettingsStateFromSettings()
+        {
+            settingsStateOrigin = new GameSettingsState
+            {
+                MusicVolume = 0.75f,
+                SFXVolume = 0.75f,
+            };
+
+            return new GameSettingsStateProxy(settingsStateOrigin);
         }
     }
 }

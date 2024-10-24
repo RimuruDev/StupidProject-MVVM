@@ -8,6 +8,5 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Root
     public class GameState
     {
         public List<BuildingEntity> Buildings;
-        //public GameSettingsState GameSettings;
     }
 }
