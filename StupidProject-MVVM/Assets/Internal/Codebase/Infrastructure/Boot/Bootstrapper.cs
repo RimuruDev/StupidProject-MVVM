@@ -8,6 +8,7 @@ using AbyssMoth.Internal.Codebase.Infrastructure.AssetManagement;
 using AbyssMoth.Internal.Codebase.Infrastructure.Services;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.GameplayParams;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.View;
+using AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.GameStateProviders;
 using AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.MainMenuParams;
 using AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.View;
 using R3;
@@ -44,7 +45,7 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
             var prefabUIViewRoot = Resources.Load<UIViewRoot>(AssetPath.UIRoot);
             uiRoot = Helper.InstantiateDontDestroyOnLoad(prefabUIViewRoot);
 
-            // Game Registrations
+            // Game Registrations ===
             RegisterGlobalServices();
             RegisterGlobalFactory();
         }
@@ -52,6 +53,9 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
         private void RegisterGlobalServices()
         {
             projectContext.RegisterInstance(uiRoot);
+
+            var gameStateProvider = new PlayerPrefsGameStateProvider();
+            projectContext.RegisterInstance<IGameStateProvider>(gameStateProvider);
         }
 
         private void RegisterGlobalFactory()
@@ -67,18 +71,21 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
 
         private void StartGame()
         {
-#if UNITY_EDITOR
             var sceneName = SceneManager.GetActiveScene().name;
-
+            
+            var testGameplayConfig = new GameplayEnterParams(SceneName.Gameplay, "Mac->Dataset.json",1);
+            var testMainMenuConfig = new MainMenuEnterParams(SceneName.MainMenu);
+            
+#if UNITY_EDITOR
             if (sceneName == SceneName.Gameplay)
             {
-                coroutineProvider.StartCoroutine(routine: LoadAndStartGameplay());
+                coroutineProvider.StartCoroutine(routine: LoadAndStartGameplay(testGameplayConfig));
                 return;
             }
 
             if (sceneName == SceneName.MainMenu)
             {
-                coroutineProvider.StartCoroutine(routine: LoadAndStartMainMenu());
+                coroutineProvider.StartCoroutine(routine: LoadAndStartMainMenu(testMainMenuConfig));
                 return;
             }
 
@@ -86,7 +93,7 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
                 return;
 #endif
 
-            coroutineProvider.StartCoroutine(routine: LoadAndStartMainMenu());
+            coroutineProvider.StartCoroutine(routine: LoadAndStartMainMenu(testMainMenuConfig));
         }
 
         private IEnumerator LoadAndStartGameplay(GameplayEnterParams enterParams = null)
@@ -98,6 +105,18 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
                 yield return LoadScene(SceneName.Gameplay);
 
                 yield return cooldownTwoSeconds;
+
+                var isGameStateLoaded = false;
+                var loadGameStateSubscription = projectContext
+                    .Resolve<IGameStateProvider>()
+                    .LoadGameState()
+                    .Subscribe(_ => isGameStateLoaded = true);
+
+                yield return new WaitUntil(() => isGameStateLoaded);
+
+                // На всякий случай лучше я отпишусь туть :3 Хотя после перехода на новую сцену полюбас GC все подчистит.
+                // Лучше перебдеть чем недобдеть. 
+                loadGameStateSubscription.Dispose();
 
                 var sceneEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>(FindObjectsInactive.Include);
 

@@ -36,5 +36,8 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Buildings
             positionSubscription?.Dispose();
             levelSubscription?.Dispose();
         }
+
+        public override string ToString() => 
+            $"Id: {Id} | TypeId: {TypeId} | Position: [{Position.Value}] | Level: {Level}";
     }
 }
