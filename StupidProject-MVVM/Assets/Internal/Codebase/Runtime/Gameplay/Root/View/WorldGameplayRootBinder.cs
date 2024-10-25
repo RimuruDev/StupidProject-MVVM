@@ -27,13 +27,13 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.View
             {
                 CreateBuilding(buildingViewModel);
             }
-            
+
             disposables.Add(rootViewModel.AllBuildings.ObserveAdd().Subscribe(e =>
             {
                 // Как только появятся данные о новом строении, она авто создастся!
                 CreateBuilding(e.Value);
             }));
-            
+
             disposables.Add(rootViewModel.AllBuildings.ObserveRemove().Subscribe(e =>
             {
                 // Как только появятся данные о новом строении, она авто удалится!
@@ -49,7 +49,9 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.View
 
         private void CreateBuilding(BuildingViewModel buildingViewModel)
         {
-            var building = Instantiate(buildingBinderPrefab);
+            var building = Instantiate(buildingBinderPrefab, transform, worldPositionStays: true);
+            building.name = $"Building_{buildingViewModel.BuildingEntityId}";
+
             building.Bind(buildingViewModel);
             createdBuildingsMap[buildingViewModel.BuildingEntityId] = building;
         }
