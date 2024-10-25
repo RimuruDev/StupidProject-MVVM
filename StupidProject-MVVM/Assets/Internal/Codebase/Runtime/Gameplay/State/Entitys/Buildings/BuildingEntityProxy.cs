@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Buildings
 {
+    /// <summary>
+    /// Proxy для сущностей строений.
+    /// </summary>
     public class BuildingEntityProxy : IDisposable
     {
         private const int SkipFirstInvoke = 1;

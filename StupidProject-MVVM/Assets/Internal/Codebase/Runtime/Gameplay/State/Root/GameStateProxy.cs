@@ -11,18 +11,21 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Root
     {
         public ObservableList<BuildingEntityProxy> Buildings { get; } = new();
 
+        private readonly GameState gameState;
         private readonly IDisposable addSubscription;
         private readonly IDisposable removeSubscription;
 
         public GameStateProxy(GameState gameState)
         {
-            gameState.Buildings.ForEach(buildingOrigin => Buildings.Add(new BuildingEntityProxy(buildingOrigin)));
+            this.gameState = gameState;
+            
+            this.gameState.Buildings.ForEach(buildingOrigin => Buildings.Add(new BuildingEntityProxy(buildingOrigin)));
 
             addSubscription = Buildings.ObserveAdd().Subscribe(collectionAddEvent =>
             {
                 var addedBuildingEntity = collectionAddEvent.Value;
 
-                gameState.Buildings.Add(new BuildingEntity
+                this.gameState.Buildings.Add(new BuildingEntity
                 {
                     Id = addedBuildingEntity.Id,
                     TypeId = addedBuildingEntity.TypeId,
@@ -34,10 +37,18 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Root
             removeSubscription = Buildings.ObserveRemove().Subscribe(e =>
             {
                 var removedBuildingEntityProxy = e.Value;
-                var removedBuildingEntity =
-                    gameState.Buildings.FirstOrDefault(b => b.Id == removedBuildingEntityProxy.Id);
-                gameState.Buildings.Remove(removedBuildingEntity);
+                var removedBuildingEntity = this.gameState.Buildings.FirstOrDefault(b => b.Id == removedBuildingEntityProxy.Id);
+                this. gameState.Buildings.Remove(removedBuildingEntity);
             });
+        }
+
+        /// <summary>
+        /// Получить уникальный идентификатор для сущности.
+        /// </summary>
+        /// <returns></returns>
+        public int GetEntityId()
+        {
+            return gameState.GlobalEntityId++;
         }
 
         public void Dispose()

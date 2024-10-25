@@ -1,5 +1,8 @@
+using System;
+using AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Buildings;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.cmd;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Root;
+using UnityEngine;
 
 namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Commands
 {
@@ -15,10 +18,33 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Commands
         {
             gameState = gameStateProxy;
         }
-        
+
         public bool Handle(CmdPlaceBuilding command)
         {
-            return default;
+            try
+            {
+                var entityId = gameState.GetEntityId();
+                var newBuildingEntity = new BuildingEntity
+                {
+                    Id = entityId,
+                    TypeId = command.BuildingTypeId,
+                    Position = command.Position,
+                    Level = 1,
+                };
+
+                var newBuildingEntityProxy = new BuildingEntityProxy(newBuildingEntity);
+                gameState.Buildings.Add(newBuildingEntityProxy);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex);
+                return false;
+            }
+
+            // Пока что по умолчанию true.
+            // Но потом если не хватает рeсурсов или уровня, то false.
+            // В общем валидация потом будет тут.
+            return true;
         }
     }
 }
