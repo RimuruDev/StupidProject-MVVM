@@ -22,14 +22,14 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Services
 
             gameState.GameState.Buildings.ForEach(x => Debug.Log($"Building: {x}"));
 
-            addSubscription = gameState.GameState.Buildings.ObserveAdd().Subscribe(e => Debug.Log($"Building added: {e.Value}"));
-            removeSubscription = gameState.GameState.Buildings.ObserveRemove().Subscribe(e => Debug.Log($"Building removed: {e.Value}"));
+            // addSubscription = gameState.GameState.Buildings.ObserveAdd().Subscribe(e => Debug.Log($"Building added: {e.Value}"));
+            // removeSubscription = gameState.GameState.Buildings.ObserveRemove().Subscribe(e => Debug.Log($"Building removed: {e.Value}"));
 
-            AddBuilding("Merunya");
-            AddBuilding("Megumin");
-            
-            RemoveBuilding("Merunya");
-            RemoveBuilding("Megumin");
+            // AddBuilding("Merunya");
+            // AddBuilding("Megumin");
+            //
+            // RemoveBuilding("Merunya");
+            // RemoveBuilding("Megumin");
         }
 
         public void Dispose()
