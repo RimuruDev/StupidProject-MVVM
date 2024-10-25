@@ -9,6 +9,13 @@
       },
       "hash": "9b18209448c5e1f4572a4191b1f4f530a1d26c01"
     },
+    "com.rimurudev.sceneswitcher": {
+      "version": "https://github.com/RimuruDev/SceneSwitcher.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "2581a8b9baf6c79841d51b54a69799aecb8d7e07"
+    },
     "com.unity.ai.navigation": {
       "version": "2.0.4",
       "depth": 0,
