@@ -29,6 +29,8 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.GameStateProviders
             {
                 var json = JsonUtility.ToJson(gameStateOrigin, true);
                 PlayerPrefs.SetString(GAME_STATE_KEY, json);
+                
+                Debug.Log($"Game state save: {json}");
             }
             catch (Exception ex)
             {
@@ -80,6 +82,11 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.GameStateProviders
 
             return Observable.Return(GameState);
         }
+
+        // public void PrintGameState()
+        // {
+        //     Debug.Log($"Print state loaded: {  JsonUtility.ToJson(gameStateOrigin, true)}");
+        // }
 
         public Observable<GameSettingsStateProxy> LoadSettingsState()
         {
