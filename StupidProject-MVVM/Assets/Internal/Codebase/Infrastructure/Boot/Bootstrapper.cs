@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 using AbyssMoth.Internal.Codebase.Infrastructure.Roots;
 using AbyssMoth.Internal.Codebase.Infrastructure.Utilities;
 using AbyssMoth.Internal.Codebase.Infrastructure.AssetManagement;
-using AbyssMoth.Internal.Codebase.Infrastructure.Services;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.GameplayParams;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.View;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.GameStateProviders;
@@ -52,7 +51,6 @@ namespace AbyssMoth.Internal.Codebase.Infrastructure.Boot
             gameStateProvider.LoadSettingsState();
             
             projectContext.RegisterInstance<IGameStateProvider>(gameStateProvider);
-            projectContext.RegisterFactory(_ => new SomeCommandService(gameStateProvider)).AsSingle();
         }
 
         private static void SetupSystemSettings()
