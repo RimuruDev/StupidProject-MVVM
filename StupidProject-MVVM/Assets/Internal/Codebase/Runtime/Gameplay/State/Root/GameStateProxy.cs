@@ -25,13 +25,7 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.Root
             {
                 var addedBuildingEntity = collectionAddEvent.Value;
 
-                this.gameState.Buildings.Add(new BuildingEntity
-                {
-                    Id = addedBuildingEntity.Id,
-                    TypeId = addedBuildingEntity.TypeId,
-                    Position = addedBuildingEntity.Position.Value,
-                    Level = addedBuildingEntity.Level.Value
-                });
+                this.gameState.Buildings.Add(addedBuildingEntity.Origin);
             });
 
             removeSubscription = Buildings.ObserveRemove().Subscribe(e =>
