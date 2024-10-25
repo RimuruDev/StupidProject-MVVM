@@ -24,7 +24,7 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.cmd
         {
             if (handlersMap.TryGetValue(typeof(TCommand), out var handler))
             {
-                var typedHandler = (ICommandHandler<ICommand>)handler;
+                var typedHandler = (ICommandHandler<TCommand>)handler;
 
                 var result= typedHandler.Handle(command);
 
