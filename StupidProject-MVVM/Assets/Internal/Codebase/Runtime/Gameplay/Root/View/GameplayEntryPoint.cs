@@ -5,6 +5,7 @@ using AbyssMoth.Internal.Codebase.Infrastructure.Roots;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Commands;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.GameplayParams;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.Installer;
+using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Services;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.cmd;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.GameStateProviders;
 using AbyssMoth.Internal.Codebase.Runtime.MainMenu.Root.MainMenuParams;
@@ -27,19 +28,15 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.View
 
             // start->Test
             //
-            //
-
-            var gameStateProvider = gameplayDiContainer.Resolve<IGameStateProvider>();
-            var gameState = gameplayDiContainer.Resolve<IGameStateProvider>().GameState;
-
-            var cmd = new CommandProcessor(gameStateProvider);
-            var placeBuildingCommandHandler = new CmdPlaceBuildingHandler(gameState);
-            cmd.RegisterHandler(placeBuildingCommandHandler);
-
-            var placeBuildingCommand = new CmdPlaceBuilding("ExploitDev", new Vector3Int(666, 666, 666));
-            var r = cmd.Process(placeBuildingCommand);
-            Debug.Log($"r: {r}");
-            //
+            // var cmd = gameplayDiContainer.Resolve<ICommandProcessor>();
+            // var placeBuildingCommand = new CmdPlaceBuilding("ShadowGarage", new Vector3Int(124, 22, 52));
+            // cmd.Process(placeBuildingCommand);
+            
+            var buildingService =  gameplayDiContainer.Resolve<BuildingsService>();
+            buildingService.PlaceBuilding("_ShadowGarage", new Vector3Int(45, 2, 52));
+            buildingService.PlaceBuilding("_Gas", new Vector3Int(3, 1, 5));
+            buildingService.PlaceBuilding("_Kira", new Vector3Int(5, 4, 14));
+            
             //
             // end->Test
 
