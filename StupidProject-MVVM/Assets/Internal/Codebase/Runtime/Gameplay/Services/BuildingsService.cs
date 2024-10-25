@@ -22,11 +22,10 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Services
         private readonly ICommandProcessor cmd;
         private readonly ObservableList<BuildingViewModel> allBuildings = new();
         private readonly Dictionary<int, BuildingViewModel> buildingsMap = new();
-
         private readonly IDisposable addSubscription;
         private readonly IDisposable removeSubscription;
 
-        private IObservableCollection<BuildingViewModel> AllBuildings => allBuildings;
+        public IObservableCollection<BuildingViewModel> AllBuildings => allBuildings;
 
         /// <param name="buildings">Model - строений.</param>
         /// <param name="cmdProcessor">CommandHandler - изменения стейта.</param>
