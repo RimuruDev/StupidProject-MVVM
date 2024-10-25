@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.View
 {
+    /// <summary>
+    /// GameplayEntryPoint -> UI
+    /// </summary>
     public class UIGameplayRootBinder : MonoBehaviour
     {
         private Subject<Unit> exitSceneSignalSubj;

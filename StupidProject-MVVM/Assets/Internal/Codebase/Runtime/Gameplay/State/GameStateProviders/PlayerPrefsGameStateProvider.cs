@@ -167,8 +167,8 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.GameStateProviders
                         Position = new Vector3Int
                         {
                             x = 12,
-                            y = 812,
-                            z = 213,
+                            y = 10,
+                            z = 10,
                         }
                     },
                     new()
@@ -178,9 +178,9 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.GameStateProviders
                         Level = 14,
                         Position = new Vector3Int
                         {
-                            x = 53,
-                            y = 21,
-                            z = 2,
+                            x = 7,
+                            y = 7,
+                            z = 7,
                         }
                     },
                     new()
@@ -190,9 +190,9 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.State.GameStateProviders
                         Level = 1000,
                         Position = new Vector3Int
                         {
-                            x = 23,
-                            y = 312,
-                            z = 412,
+                            x = 5,
+                            y = 5,
+                            z = 5,
                         }
                     },
                 },

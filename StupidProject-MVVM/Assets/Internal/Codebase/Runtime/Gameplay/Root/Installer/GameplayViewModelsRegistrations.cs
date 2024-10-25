@@ -1,5 +1,6 @@
 using AbyssMoth.DI;
 using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.View;
+using AbyssMoth.Internal.Codebase.Runtime.Gameplay.Services;
 
 namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.Installer
 {
@@ -7,7 +8,10 @@ namespace AbyssMoth.Internal.Codebase.Runtime.Gameplay.Root.Installer
     {
         public static void Register(DIContainer diContainer)
         {
-            diContainer.RegisterFactory(c => new WorldGameplayRootViewModel()).AsSingle();
+            diContainer.RegisterFactory(
+                _ => new WorldGameplayRootViewModel(diContainer.Resolve<BuildingsService>())
+            ).AsSingle();
+            
             diContainer.RegisterFactory(c => new UIGameplayRootViewModel()).AsSingle();
         }
     }
